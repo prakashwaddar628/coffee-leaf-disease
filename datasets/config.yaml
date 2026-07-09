@@ -1,0 +1,9 @@
+training:
+  image_size: 224
+  batch_size: 32
+  num_workers: 4
+  train_split: 0.80
+  validation_split: 0.10
+  test_split: 0.10
+  sampler: "weighted"
+  augmentation: "albumentations"
