@@ -16,22 +16,30 @@ Automated machine learning pipeline for detecting diseases in coffee leaves usin
 ```text
 Coffee-Leaf-Disease-Research/
 │
-├── datasets/                  # Source code for downloading and verifying data
-│   ├── downloader.py          # Orchestrates download & analysis
+├── datasets/                  # Configuration & Data Utils
+│   ├── config.yaml            # Universal hyperparameters for all ML pipelines
+│   ├── downloader.py          # Orchestrates Kaggle download & analysis
 │   └── utils.py               # Data verification & stats logic
 │
-├── scripts/                   # Auxiliary scripts
-│   └── build_eda_notebook.py  # Autogenerates the EDA Jupyter notebook
+├── scripts/                   # Auxiliary notebook generators
+│   ├── build_eda_notebook.py  
+│   ├── build_preprocessing_notebook.py
+│   └── build_augmentation_notebook.py
 │
 ├── data/                      
 │   ├── raw/                   # Raw RoCoLe images (Ignored in Git)
-│   ├── processed/             # Preprocessed images (Ignored in Git)
-│   └── reports/               # Auto-generated dataset metrics, JSON stats, and EDA reports
+│   ├── processed/             # Resized and CLAHE-enhanced images (Ignored in Git)
+│   ├── train/                 # 80% Stratified Split (Ignored in Git)
+│   ├── validation/            # 10% Stratified Split (Ignored in Git)
+│   ├── test/                  # 10% Stratified Split (Ignored in Git)
+│   └── reports/               # Auto-generated metrics, stats, & logic reports
 │
-├── plots/                     # Auto-generated plots from EDA (Histograms, Distributions, Outliers)
+├── plots/                     # Auto-generated plots (EDA, Preprocessing, Augmentation)
 │
-├── notebooks/                 # Jupyter Notebooks
-│   └── 01_Dataset_Analysis.ipynb
+├── notebooks/                 # Sequential ML Pipeline Notebooks
+│   ├── 01_Dataset_Analysis.ipynb
+│   ├── 02_Image_Preprocessing.ipynb
+│   └── 03_Data_Augmentation.ipynb
 │
 ├── requirements.txt           # Project dependencies
 ├── README.md                  # Project documentation
@@ -47,17 +55,23 @@ Coffee-Leaf-Disease-Research/
    pip install -r requirements.txt
    ```
 
-2. **Download & Verify Data:**
-   Make sure your `KAGGLE_API_TOKEN` is set, then run:
+2. **Execute Full Pipeline (Sprints 1-4):**
+   Make sure your `KAGGLE_API_TOKEN` is set, then sequentially execute:
    ```bash
+   # Sprint 1.5: Ingestion
    python datasets/downloader.py
-   ```
-
-3. **Run Exploratory Data Analysis (EDA):**
-   Build the notebook and run it:
-   ```bash
+   
+   # Sprint 2: Exploratory Data Analysis
    python scripts/build_eda_notebook.py
    jupyter nbconvert --to notebook --execute notebooks/01_Dataset_Analysis.ipynb
+
+   # Sprint 3: Image Preprocessing (Resize + CLAHE)
+   python scripts/build_preprocessing_notebook.py
+   jupyter nbconvert --to notebook --execute notebooks/02_Image_Preprocessing.ipynb
+
+   # Sprint 4: Data Augmentation & Train/Val Splits
+   python scripts/build_augmentation_notebook.py
+   jupyter nbconvert --to notebook --execute notebooks/03_Data_Augmentation.ipynb
    ```
 
-All plots will be output to `plots/` and statistical findings will be saved to `data/reports/`.
+All visual output will be saved to `plots/` and all empirical stats will be written directly into `data/reports/`.
