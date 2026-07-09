@@ -9,7 +9,7 @@ Automated machine learning pipeline for detecting diseases in coffee leaves usin
 - [x] **Sprint 2:** Exploratory Data Analysis (EDA) & Insights
 - [x] **Sprint 3:** Image Preprocessing & Dataset Preparation
 - [x] **Sprint 4:** Data Augmentation & PyTorch Data Pipeline
-- [ ] **Sprint 5:** Baseline Modeling & Evaluation
+- [x] **Sprint 5:** Baseline Modeling & Evaluation
 
 ## Repository Structure
 
@@ -24,7 +24,8 @@ Coffee-Leaf-Disease-Research/
 ├── scripts/                   # Auxiliary notebook generators
 │   ├── build_eda_notebook.py  
 │   ├── build_preprocessing_notebook.py
-│   └── build_augmentation_notebook.py
+│   ├── build_augmentation_notebook.py
+│   └── build_training_notebook.py
 │
 ├── data/                      
 │   ├── raw/                   # Raw RoCoLe images (Ignored in Git)
@@ -39,7 +40,12 @@ Coffee-Leaf-Disease-Research/
 ├── notebooks/                 # Sequential ML Pipeline Notebooks
 │   ├── 01_Dataset_Analysis.ipynb
 │   ├── 02_Image_Preprocessing.ipynb
-│   └── 03_Data_Augmentation.ipynb
+│   ├── 03_Data_Augmentation.ipynb
+│   └── 04_Baseline_Model_Framework.ipynb
+│
+├── results/                   # Experiment Tracking (Immutable runs)
+│   └── mobilenetv3/           # Model-specific folder
+│       └── experiment_001/    # Checkpoints, JSON metrics, and performance plots
 │
 ├── requirements.txt           # Project dependencies
 ├── README.md                  # Project documentation
@@ -72,6 +78,10 @@ Coffee-Leaf-Disease-Research/
    # Sprint 4: Data Augmentation & Train/Val Splits
    python scripts/build_augmentation_notebook.py
    jupyter nbconvert --to notebook --execute notebooks/03_Data_Augmentation.ipynb
+
+   # Sprint 5: Universal Training Loop & MobileNetV3 Baseline
+   python scripts/build_training_notebook.py
+   jupyter nbconvert --to notebook --execute notebooks/04_Baseline_Model_Framework.ipynb
    ```
 
 All visual output will be saved to `plots/` and all empirical stats will be written directly into `data/reports/`.
