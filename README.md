@@ -8,8 +8,8 @@ Automated machine learning pipeline for detecting diseases in coffee leaves usin
 - [x] **Sprint 1.5:** Data Ingestion & Automated Verification (`data/reports/`)
 - [x] **Sprint 2:** Exploratory Data Analysis (EDA) & Insights
 - [x] **Sprint 3:** Image Preprocessing & Dataset Preparation
-- [ ] **Sprint 4:** Data Augmentation
-- [ ] **Sprint 4+:** Modeling & Evaluation
+- [x] **Sprint 4:** Data Augmentation & PyTorch Data Pipeline
+- [ ] **Sprint 5:** Baseline Modeling & Evaluation
 
 ## Repository Structure
 
