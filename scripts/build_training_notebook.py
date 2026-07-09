@@ -232,40 +232,31 @@ history = {'train_loss': [], 'val_loss': [], 'train_acc': [], 'val_acc': []}
 
 start_time = time.time()
 
-with Progress(
-    TextColumn("[progress.description]{task.description}"),
-    BarColumn(),
-    TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
-    TimeElapsedColumn(),
-    TimeRemainingColumn()
-) as progress:
+print(f"Starting Training for {config['epochs']} epochs...")
+for epoch in range(config['epochs']):
+    train_loss, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
+    val_loss, val_acc = validate(model, val_loader, criterion, device)
     
-    task = progress.add_task("[cyan]Training...", total=config['epochs'])
+    scheduler.step(val_loss)
     
-    for epoch in range(config['epochs']):
-        train_loss, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
-        val_loss, val_acc = validate(model, val_loader, criterion, device)
+    history['train_loss'].append(train_loss)
+    history['val_loss'].append(val_loss)
+    history['train_acc'].append(train_acc)
+    history['val_acc'].append(val_acc)
+    
+    # Best Model Selection based on Validation Loss
+    if val_loss < best_val_loss:
+        best_val_loss = val_loss
+        epochs_no_improve = 0
+        torch.save(model.state_dict(), EXP_DIR / "best_model.pth")
+    else:
+        epochs_no_improve += 1
         
-        scheduler.step(val_loss)
-        
-        history['train_loss'].append(train_loss)
-        history['val_loss'].append(val_loss)
-        history['train_acc'].append(train_acc)
-        history['val_acc'].append(val_acc)
-        
-        # Best Model Selection based on Validation Loss
-        if val_loss < best_val_loss:
-            best_val_loss = val_loss
-            epochs_no_improve = 0
-            torch.save(model.state_dict(), EXP_DIR / "best_model.pth")
-        else:
-            epochs_no_improve += 1
-            
-        progress.update(task, advance=1, description=f"[cyan]Epoch {epoch+1}/{config['epochs']} | Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.4f}")
-        
-        if epochs_no_improve >= patience:
-            print(f"\\nEarly stopping triggered at epoch {epoch+1}!")
-            break
+    print(f"Epoch {epoch+1}/{config['epochs']} | Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.4f}")
+    
+    if epochs_no_improve >= patience:
+        print(f"\\nEarly stopping triggered at epoch {epoch+1}!")
+        break
 
 torch.save(model.state_dict(), EXP_DIR / "last_model.pth")
 train_time = time.time() - start_time
