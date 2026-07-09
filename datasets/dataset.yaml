@@ -1,0 +1,17 @@
+datasets:
+  rocole:
+    enabled: true
+    name: "RoCoLe Dataset"
+    url: "kaggle://nirmalsankalana/rocole-a-robusta-coffee-leaf-images-dataset"
+    output_dir: "data/raw/rocole"
+    archive_name: "rocole.zip"
+    extract: true
+    delete_archive: true
+  bracol:
+    enabled: false
+    name: "BRACOL Dataset"
+    url: ""
+    output_dir: "data/raw/bracol"
+    archive_name: "bracol.zip"
+    extract: true
+    delete_archive: true
