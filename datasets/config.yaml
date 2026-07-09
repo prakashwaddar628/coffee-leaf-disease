@@ -14,3 +14,4 @@ training:
   test_split: 0.10
   sampler: "weighted"
   augmentation: "albumentations"
+  unfreeze_blocks: 2

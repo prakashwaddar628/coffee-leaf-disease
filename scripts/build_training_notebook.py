@@ -153,12 +153,20 @@ model = models.mobilenet_v3_small(weights=models.MobileNet_V3_Small_Weights.IMAG
 for param in model.parameters():
     param.requires_grad = False
 
+# Partial Fine-Tuning: Unfreeze last N blocks if specified
+unfreeze_blocks = config.get('unfreeze_blocks', 0)
+if unfreeze_blocks > 0:
+    for block in list(model.features)[-unfreeze_blocks:]:
+        for param in block.parameters():
+            param.requires_grad = True
+    print(f"Partially unfroze the last {unfreeze_blocks} blocks of the backbone.")
+
 # Replace classifier
 num_ftrs = model.classifier[3].in_features
 model.classifier[3] = nn.Linear(num_ftrs, len(classes))
 
 model = model.to(device)
-print("MobileNetV3 Small initialized. Backbone Frozen. Classifier Replaced.")
+print(f"MobileNetV3 Small initialized. Unfrozen Blocks: {unfreeze_blocks}. Classifier Replaced.")
 '''))
 
     # 8, 9, 10, 11. Loss, Optimizer, Scheduler, Early Stopping
@@ -170,7 +178,7 @@ print("MobileNetV3 Small initialized. Backbone Frozen. Classifier Replaced.")
 criterion = nn.CrossEntropyLoss()
 
 # Optimizer (AdamW)
-optimizer = optim.AdamW(model.classifier.parameters(), lr=config['learning_rate'], weight_decay=config['weight_decay'])
+optimizer = optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=config['learning_rate'], weight_decay=config['weight_decay'])
 
 # Scheduler
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=3, factor=0.5)
