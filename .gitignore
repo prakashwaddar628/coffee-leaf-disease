@@ -48,6 +48,9 @@ datasets/*
 # Logs
 logs/*
 
+# Results
+results/
+
 # IDE
 .vscode/
 .idea/
