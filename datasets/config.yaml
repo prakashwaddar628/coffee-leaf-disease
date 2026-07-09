@@ -2,6 +2,13 @@ training:
   image_size: 224
   batch_size: 32
   num_workers: 0
+  epochs: 20
+  learning_rate: 0.001
+  weight_decay: 0.01
+  optimizer: "AdamW"
+  scheduler: "ReduceLROnPlateau"
+  early_stopping: 10
+  random_seed: 42
   train_split: 0.80
   validation_split: 0.10
   test_split: 0.10
