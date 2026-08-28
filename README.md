@@ -65,7 +65,7 @@ Coffee-Leaf-Disease-Research/
    Make sure your `KAGGLE_API_TOKEN` is set, then sequentially execute:
    ```bash
    # Sprint 1.5: Ingestion
-   python datasets/downloader.py
+   python datasets/downloader.py --download all
    
    # Sprint 2: Exploratory Data Analysis
    python scripts/build_eda_notebook.py

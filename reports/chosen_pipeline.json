@@ -1,0 +1,9 @@
+{
+    "step_1": "Resize to 224x224 (Standard DL input)",
+    "step_2": "CLAHE (Improves contrast & lesion visibility)",
+    "step_3": "Normalize to 0-1 (Deferred to DataLoader during training)",
+    "rejected": [
+        "Histogram Equalization (Distorts color)",
+        "Background Removal (Loses edge features)"
+    ]
+}
