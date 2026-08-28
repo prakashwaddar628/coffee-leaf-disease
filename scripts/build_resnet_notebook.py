@@ -363,11 +363,13 @@ if len(top_errors) > 0:
     nb.cells.append(nbf.v4.new_code_cell(
 '''total_params = sum(p.numel() for p in model.parameters())
 trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+model_size_mb = sum(p.numel() * p.element_size() for p in model.parameters()) / (1024 * 1024)
 
 metrics = {
     "model_name": MODEL_NAME,
     "total_parameters": total_params,
     "trainable_parameters": trainable_params,
+    "model_size_mb": model_size_mb,
     "training_time_sec": train_time,
     "inference_fps": fps,
     "best_val_loss": best_val_loss,
@@ -388,11 +390,14 @@ print("All outputs saved to experiment folder.")
     nb.cells.append(nbf.v4.new_markdown_cell("## 20 & 21. Generate Report & Update Status"))
     nb.cells.append(nbf.v4.new_code_cell(
 '''with open('../reports/Sprint_06_Report.md', 'w') as f:
-    f.write(f"# Sprint 6: {MODEL_NAME} Baseline Report\n\n")
-    f.write(f"## Configuration\n- **Experiment Path**: `{EXP_DIR}`\n- **Epochs**: {config['epochs']}\n- **Optimizer**: {config['optimizer']}\n")
-    f.write(f"\n## Model Complexity\n- **Total Parameters**: {total_params:,}\n- **Trainable Parameters**: {trainable_params:,}\n- **Inference Speed**: {fps:.1f} FPS\n")
-    f.write(f"\n## Results\n- **Test Accuracy**: {report_dict['accuracy'] * 100:.2f}%\n")
-    f.write(f"\nSee `results/{MODEL_NAME}/experiment_XXX/` for confusion matrix and misclassifications.\n")
+    f.write(f"# Sprint 6: {MODEL_NAME} Baseline Report\\n\\n")
+    f.write(f"## Objective\\nEvaluate whether a deeper residual network (ResNet50) can outperform MobileNetV3 while using the exact same experimental setup.\\n\\n")
+    f.write(f"## Configuration\\n- **Experiment Path**: `{EXP_DIR}`\\n- **Epochs**: {config['epochs']}\\n- **Optimizer**: {config['optimizer']}\\n")
+    f.write(f"\\n## Model Complexity\\n- **Total Parameters**: {total_params:,}\\n- **Trainable Parameters**: {trainable_params:,}\\n- **Model Size**: {model_size_mb:.2f} MB\\n- **Inference Speed**: {fps:.1f} FPS\\n")
+    f.write(f"\\n## Results\\n- **Test Accuracy**: {report_dict['accuracy'] * 100:.2f}%\\n")
+    f.write(f"\\n## Comparison with MobileNetV3\\n(To be filled after analysis)\\n")
+    f.write(f"\\n## Observations & Limitations\\n(To be filled after analysis)\\n")
+    f.write(f"\\nSee `results/{MODEL_NAME}/experiment_XXX/` for confusion matrix and misclassifications.\\n")
 
 status_file = Path('../data/reports/status.json')
 with open(status_file, 'r') as f:

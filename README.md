@@ -10,6 +10,7 @@ Automated machine learning pipeline for detecting diseases in coffee leaves usin
 - [x] **Sprint 3:** Image Preprocessing & Dataset Preparation
 - [x] **Sprint 4:** Data Augmentation & PyTorch Data Pipeline
 - [x] **Sprint 5:** Baseline Modeling & Evaluation
+- [ ] **Sprint 6:** ResNet50 Baseline Evaluation
 
 ## Repository Structure
 
@@ -41,7 +42,8 @@ Coffee-Leaf-Disease-Research/
 │   ├── 01_Dataset_Analysis.ipynb
 │   ├── 02_Image_Preprocessing.ipynb
 │   ├── 03_Data_Augmentation.ipynb
-│   └── 04_Baseline_Model_Framework.ipynb
+│   ├── 04_Baseline_Model_Framework.ipynb
+│   └── 05_Model_ResNet50.ipynb
 │
 ├── results/                   # Experiment Tracking (Immutable runs)
 │   └── mobilenetv3/           # Model-specific folder
@@ -82,6 +84,10 @@ Coffee-Leaf-Disease-Research/
    # Sprint 5: Universal Training Loop & MobileNetV3 Baseline
    python scripts/build_training_notebook.py
    jupyter nbconvert --to notebook --execute notebooks/04_Baseline_Model_Framework.ipynb
+   
+   # Sprint 6: ResNet50 Baseline Evaluation
+   python scripts/build_resnet_notebook.py
+   jupyter nbconvert --to notebook --execute notebooks/05_Model_ResNet50.ipynb
    ```
 
 All visual output will be saved to `plots/` and all empirical stats will be written directly into `data/reports/`.
