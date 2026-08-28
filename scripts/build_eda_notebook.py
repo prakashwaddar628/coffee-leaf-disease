@@ -66,7 +66,7 @@ print(f"Verification Status: {'Passed' if manifest.get('verified') else 'Failed'
 import cv2
 import random
 
-raw_dir = Path('../data/raw/rocole')
+raw_dir = Path('../data/raw/harmonized')
 classes = [d for d in raw_dir.iterdir() if d.is_dir()]
 
 plt.figure(figsize=(20, 10))

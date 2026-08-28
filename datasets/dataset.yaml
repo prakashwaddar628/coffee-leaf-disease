@@ -15,3 +15,11 @@ datasets:
     archive_name: "bracol.zip"
     extract: true
     delete_archive: true
+  jmuben:
+    enabled: true
+    name: "JMuBEN Dataset"
+    url: "kaggle://noamaanabdulazeem/jmuben-coffee-dataset"
+    output_dir: "data/raw/jmuben"
+    archive_name: "jmuben.zip"
+    extract: true
+    delete_archive: true

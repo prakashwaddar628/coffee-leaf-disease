@@ -50,7 +50,7 @@ import time
 import shutil
 import pandas as pd
 
-raw_dir = Path('../data/raw/rocole')
+raw_dir = Path('../data/raw/harmonized')
 classes = [d.name for d in raw_dir.iterdir() if d.is_dir()]
 print(f"Loaded classes: {classes}")
 """))
