@@ -1,1 +1,53 @@
-[]
+[
+    {
+        "id": "8733e7ea-2414-4c0a-808f-978c2774f324",
+        "predicted_class": "coffee___healthy",
+        "confidence": 0.5308602452278137,
+        "probabilities": {
+            "coffee___cerscospora": 1.8355162865191232e-06,
+            "coffee___healthy": 0.5308602452278137,
+            "coffee___miner": 1.475072849643766e-06,
+            "coffee___phoma": 3.337825773996883e-06,
+            "coffee___red_spider_mite": 0.04597437009215355,
+            "coffee___rust": 0.42315876483917236
+        },
+        "image_url": "/api/v1/uploads/8733e7ea-2414-4c0a-808f-978c2774f324.jpg",
+        "gradcam_url": "/api/v1/gradcam/cam_8733e7ea-2414-4c0a-808f-978c2774f324.jpg",
+        "model_name": "mobilenetv3",
+        "timestamp": "2026-08-29T15:03:27.380293"
+    },
+    {
+        "id": "62d43d50-5fb0-493a-a05f-49c464af22bf",
+        "predicted_class": "coffee___healthy",
+        "confidence": 0.9038997292518616,
+        "probabilities": {
+            "coffee___cerscospora": 2.8093461878597736e-05,
+            "coffee___healthy": 0.9038997292518616,
+            "coffee___miner": 5.5067655324592124e-08,
+            "coffee___phoma": 1.2538056580524426e-05,
+            "coffee___red_spider_mite": 0.00930738728493452,
+            "coffee___rust": 0.08675215393304825
+        },
+        "image_url": "/api/v1/uploads/62d43d50-5fb0-493a-a05f-49c464af22bf.jpg",
+        "gradcam_url": "/api/v1/gradcam/cam_62d43d50-5fb0-493a-a05f-49c464af22bf.jpg",
+        "model_name": "mobilenetv3",
+        "timestamp": "2026-08-29T15:00:54.039164"
+    },
+    {
+        "id": "be75c7c0-f0d0-417b-8982-cbe78e1e4c6a",
+        "predicted_class": "coffee___rust",
+        "confidence": 0.5494541525840759,
+        "probabilities": {
+            "coffee___cerscospora": 0.0005577061092481017,
+            "coffee___healthy": 0.25333264470100403,
+            "coffee___miner": 3.9639529859414324e-05,
+            "coffee___phoma": 0.0016380291199311614,
+            "coffee___red_spider_mite": 0.1949777603149414,
+            "coffee___rust": 0.5494541525840759
+        },
+        "image_url": "/api/v1/uploads/be75c7c0-f0d0-417b-8982-cbe78e1e4c6a.jpg",
+        "gradcam_url": "/api/v1/gradcam/cam_be75c7c0-f0d0-417b-8982-cbe78e1e4c6a.jpg",
+        "model_name": "mobilenetv3",
+        "timestamp": "2026-08-29T14:57:38.582251"
+    }
+]
