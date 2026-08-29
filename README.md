@@ -137,13 +137,18 @@ Coffee-Leaf-Disease-Research/
    python scripts/train_resnet50.py
    ```
 
-5. **Run FastAPI Backend:**
+5. **Run the Full System (Backend & Frontend):**
    ```bash
-   python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+   python run.py
    ```
+   This will start both the FastAPI backend and Next.js frontend concurrently. You can access the UI at `http://localhost:3000`.
 
-6. **Run Next.js Frontend:**
+   *Alternatively, run them separately:*
    ```bash
+   # Terminal 1: Backend
+   python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+   # Terminal 2: Frontend
    cd frontend
    npm run dev
    ```
