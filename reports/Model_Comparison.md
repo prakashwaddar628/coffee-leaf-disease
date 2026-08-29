@@ -1,5 +1,7 @@
 # Model Architecture Comparison
 
+> Historical results only. The earlier dataset splits contained duplicate images across partitions; rebuild the dataset and rerun evaluations before using these values for model selection or deployment.
+
 This document strictly tracks the evaluation metrics of various architectures to determine the optimal trade-off between complexity and performance for Coffee Leaf Disease classification.
 
 | Metric | MobileNetV3 (Frozen) | MobileNetV3 (Fine-Tuned) | ResNet50 (Frozen) | EfficientNet-B0 | DenseNet121 |

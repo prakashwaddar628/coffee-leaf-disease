@@ -12,6 +12,7 @@ Automated machine learning pipeline for detecting and classifying diseases in co
 - [x] **Sprint 5:** Baseline Modeling & Evaluation (MobileNetV3)
 - [x] **Sprint 6:** ResNet50 Baseline Evaluation
 - [x] **Sprint 6.1:** Dataset Expansion & Harmonization (RoCoLe + JMuBEN → 3,000 images, 6 classes)
+- [ ] **Dataset rebuild:** required before any reported model metric is treated as valid. Earlier split directories retained stale files and have been superseded by the verified rebuild scripts.
 
 ## Dataset
 
@@ -27,7 +28,7 @@ The harmonized dataset is built by the `scripts/build_harmonized_dataset.py` scr
 
 | Metric | MobileNetV3 (Frozen) | MobileNetV3 (Fine-Tuned) | ResNet50 (Frozen) |
 |:---|:---|:---|:---|
-| **Accuracy** | — | **84.1%** | ⏳ Training |
+| **Accuracy** | — | **Historical: 84.1% (requires verified rebuild)** | **Historical 3-class run (not comparable)** |
 | **Inference FPS** | — | 48.5 | ⏳ Training |
 | **Total Parameters** | — | 1,524,006 | 23,514,179 |
 | **Training Time** | — | ~953s | ⏳ Training |
@@ -106,7 +107,7 @@ Coffee-Leaf-Disease-Research/
 
 3. **Build Harmonized 3,000-image Dataset:**
    ```bash
-   python scripts/build_harmonized_dataset.py
+   python scripts/build_harmonized_dataset.py --clean
    ```
 
 4. **Execute Full Pipeline:**
@@ -123,6 +124,10 @@ Coffee-Leaf-Disease-Research/
    python scripts/build_augmentation_notebook.py
    jupyter nbconvert --to notebook --execute notebooks/03_Data_Augmentation.ipynb --inplace
 
+   # Preferred: create a clean, deterministic split manifest and verify there
+   # are no duplicate images across train, validation, and test.
+   python scripts/build_dataset_splits.py --clean
+
    # Sprint 5: MobileNetV3 Baseline
    python scripts/build_training_notebook.py
    jupyter nbconvert --to notebook --execute notebooks/04_Baseline_Model_Framework.ipynb --inplace
@@ -132,3 +137,5 @@ Coffee-Leaf-Disease-Research/
    ```
 
 All visual output is saved to `plots/` and all empirical stats are written to `data/reports/`. Experiment metrics are tracked under `results/<model_name>/experiment_XXX/`.
+
+> Use Python 3.11+ with a newly created virtual environment. The committed `venv/` directory is machine-specific and may not work on another machine. Recreate it with `py -m venv venv` (or your installed Python command), then install `requirements.txt`.

@@ -37,7 +37,9 @@ data/processed/
 *.jpg
 *.png
 plots/
-data/reports/
+data/reports/*
+!data/reports/status.json
+!data/reports/split_manifest.json
 
 # Datasets
 datasets/*

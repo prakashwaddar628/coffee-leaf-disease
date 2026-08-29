@@ -68,6 +68,13 @@ X_val, X_test, y_val, y_test = train_test_split(
 )
 
 data_dir = Path('../data')
+# Never retain files from an earlier split: stale files can put an image in
+# both train and test, producing misleadingly optimistic metrics.
+for split in ['train', 'validation', 'test']:
+    split_dir = data_dir / split
+    if split_dir.exists():
+        shutil.rmtree(split_dir)
+
 for split in ['train', 'validation', 'test']:
     for cls in classes:
         (data_dir / split / cls).mkdir(parents=True, exist_ok=True)

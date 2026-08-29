@@ -61,6 +61,12 @@ print(f"Loaded classes: {classes}")
 r"""processed_dir = Path('../data/processed')
 folders = ['resized', 'normalized', 'clahe', 'histogram_equalized', 'background_removed', 'final']
 
+# A preprocessing rerun must replace its final output. Keeping older files
+# makes the dataset larger than its source and contaminates later splits.
+final_dir = processed_dir / 'final'
+if final_dir.exists():
+    shutil.rmtree(final_dir)
+
 for fld in folders:
     for cls in classes:
         (processed_dir / fld / cls).mkdir(parents=True, exist_ok=True)
@@ -331,7 +337,7 @@ for cls in classes:
             img_clahe = transform_clahe(image=img_res)['image']
             
             out_img = cv2.cvtColor(img_clahe, cv2.COLOR_RGB2BGR)
-            out_path = processed_dir / 'final' / cls / img_path.name
+            out_path = final_dir / cls / img_path.name
             
             cv2.imwrite(str(out_path), out_img)
             stats["processed"] += 1

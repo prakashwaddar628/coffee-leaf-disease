@@ -38,8 +38,12 @@ RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Automatically determine next experiment number
 existing_exp = [d for d in RESULTS_DIR.iterdir() if d.is_dir() and d.name.startswith("experiment_")]
-exp_num = len(existing_exp) + 1
+experiment_numbers = [int(d.name.removeprefix("experiment_")) for d in existing_exp if d.name.removeprefix("experiment_").isdigit()]
+exp_num = max(experiment_numbers, default=0) + 1
 EXP_DIR = RESULTS_DIR / f"experiment_{exp_num:03d}"
+while EXP_DIR.exists():
+    exp_num += 1
+    EXP_DIR = RESULTS_DIR / f"experiment_{exp_num:03d}"
 EXP_DIR.mkdir(parents=True, exist_ok=True)
 
 # Save a snapshot of the config for reproducibility
@@ -61,6 +65,11 @@ import cv2
 import pandas as pd
 
 data_dir = Path('../data')
+status_path = data_dir / 'reports' / 'status.json'
+with open(status_path, encoding='utf-8') as f:
+    dataset_status = json.load(f)
+if not dataset_status.get('split_verified'):
+    raise RuntimeError('Refusing to train: run scripts/build_dataset_splits.py --clean first.')
 classes = sorted([d.name for d in (data_dir / 'train').iterdir() if d.is_dir()])
 
 # Same transforms as Sprint 4
@@ -406,13 +415,9 @@ print("All outputs saved to experiment folder.")
     f.write(f"\\n## Results\\n- **Test Accuracy**: {report_dict['accuracy'] * 100:.2f}%\\n")
     f.write("\\nSee `results/mobilenetv3/experiment_XXX/` for confusion matrix and misclassifications.\\n")
 
-status_file = Path('../data/reports/status.json')
-with open(status_file, 'r') as f:
-    status = json.load(f)
-
-status['mobilenet'] = True
-with open(status_file, 'w') as f:
-    json.dump(status, f, indent=4)
+dataset_status.update({'mobilenet': True, 'training': True, 'metrics_valid': True})
+with open(status_path, 'w') as f:
+    json.dump(dataset_status, f, indent=2)
     
 print("Sprint 5 Execution Completed.")
 '''))

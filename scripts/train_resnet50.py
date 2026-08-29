@@ -36,8 +36,12 @@ RESULTS_DIR = Path(f"results/{MODEL_NAME}")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 existing_exp = [d for d in RESULTS_DIR.iterdir() if d.is_dir() and d.name.startswith("experiment_")]
-exp_num = len(existing_exp) + 1
+experiment_numbers = [int(d.name.removeprefix("experiment_")) for d in existing_exp if d.name.removeprefix("experiment_").isdigit()]
+exp_num = max(experiment_numbers, default=0) + 1
 EXP_DIR = RESULTS_DIR / f"experiment_{exp_num:03d}"
+while EXP_DIR.exists():
+    exp_num += 1
+    EXP_DIR = RESULTS_DIR / f"experiment_{exp_num:03d}"
 EXP_DIR.mkdir(parents=True, exist_ok=True)
 
 with open(EXP_DIR / "config_snapshot.yaml", 'w') as f:
@@ -62,6 +66,10 @@ print(f"Device: {device}")
 # ── Dataset ────────────────────────────────────────────────────────────────────
 data_dir = Path('data')
 IMG_SIZE = config['image_size']
+status_path = data_dir / 'reports' / 'status.json'
+status = json.loads(status_path.read_text(encoding='utf-8')) if status_path.exists() else {}
+if not status.get('split_verified'):
+    raise RuntimeError('Refusing to train: run scripts/build_dataset_splits.py --clean first.')
 
 train_transform = A.Compose([
     A.Resize(IMG_SIZE, IMG_SIZE),
@@ -285,11 +293,7 @@ with open('reports/Sprint_06_Report.md', 'w') as f:
         r = report_dict.get(cls, {})
         f.write(f"- **{cls}**: P={r.get('precision',0):.3f}, R={r.get('recall',0):.3f}, F1={r.get('f1-score',0):.3f}\n")
 
-status_file = Path('data/reports/status.json')
-with open(status_file, 'r') as f:
-    status = json.load(f)
-status['resnet'] = True
-with open(status_file, 'w') as f:
-    json.dump(status, f, indent=4)
+status.update({'resnet': True, 'training': True, 'metrics_valid': True})
+status_path.write_text(json.dumps(status, indent=2), encoding='utf-8')
 
 print("\nSprint 6 complete!")

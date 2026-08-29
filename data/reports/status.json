@@ -1,0 +1,16 @@
+{
+    "download": true,
+    "verification": true,
+    "eda": true,
+    "preprocessing": true,
+    "augmentation": true,
+    "training": false,
+    "split_verified": false,
+    "metrics_valid": false,
+    "comparison": false,
+    "deployment": false,
+    "downloaded": true,
+    "eda_complete": true,
+    "mobilenet": false,
+    "resnet": false
+}

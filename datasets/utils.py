@@ -112,14 +112,27 @@ def extract_archive(archive_path: Path, extract_to: Path) -> bool:
     """
     try:
         create_directory(extract_to)
+        destination = extract_to.resolve()
+
+        def is_safe(member_name: str) -> bool:
+            try:
+                return Path(os.path.commonpath([destination, (destination / member_name).resolve()])) == destination
+            except ValueError:
+                return False
         
         if str(archive_path).endswith('.zip'):
             logger.info(f"Extracting ZIP {archive_path} to {extract_to}...")
             with zipfile.ZipFile(archive_path, 'r') as zip_ref:
+                if not all(is_safe(member.filename) for member in zip_ref.infolist()):
+                    raise ValueError("Archive contains an unsafe extraction path")
                 zip_ref.extractall(extract_to)
         elif str(archive_path).endswith(('.tar.gz', '.tgz', '.tar')):
             logger.info(f"Extracting TAR {archive_path} to {extract_to}...")
             with tarfile.open(archive_path, 'r:*') as tar_ref:
+                if not all(is_safe(member.name) for member in tar_ref.getmembers()):
+                    raise ValueError("Archive contains an unsafe extraction path")
+                if any(member.issym() or member.islnk() for member in tar_ref.getmembers()):
+                    raise ValueError("Archive contains symbolic links, which are not supported")
                 tar_ref.extractall(extract_to)
         else:
             logger.error(f"Unsupported archive format: {archive_path}")
