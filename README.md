@@ -12,7 +12,8 @@ Automated machine learning pipeline for detecting and classifying diseases in co
 - [x] **Sprint 5:** Baseline Modeling & Evaluation (MobileNetV3)
 - [x] **Sprint 6:** ResNet50 Baseline Evaluation
 - [x] **Sprint 6.1:** Dataset Expansion & Harmonization (RoCoLe + JMuBEN → 3,000 images, 6 classes)
-- [ ] **Dataset rebuild:** required before any reported model metric is treated as valid. Earlier split directories retained stale files and have been superseded by the verified rebuild scripts.
+- [x] **Sprint 7:** FastAPI Backend & Grad-CAM Explainability Integration
+- [x] **Sprint 8:** Next.js Frontend Dashboard
 
 ## Dataset
 
@@ -134,6 +135,17 @@ Coffee-Leaf-Disease-Research/
 
    # Sprint 6: ResNet50 (use standalone script to avoid timeout)
    python scripts/train_resnet50.py
+   ```
+
+5. **Run FastAPI Backend:**
+   ```bash
+   python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+   ```
+
+6. **Run Next.js Frontend:**
+   ```bash
+   cd frontend
+   npm run dev
    ```
 
 All visual output is saved to `plots/` and all empirical stats are written to `data/reports/`. Experiment metrics are tracked under `results/<model_name>/experiment_XXX/`.

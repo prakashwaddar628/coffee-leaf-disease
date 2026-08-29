@@ -67,3 +67,8 @@ results/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# API Backend Data
+uploads/
+gradcam/
+predictions.json
